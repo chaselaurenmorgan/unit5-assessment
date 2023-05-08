@@ -31,23 +31,20 @@ module.exports = {
 
     getCities: (req, res)=>{
         sequelize.query(`
-        SELECT cities.city_id, cities.name AS city, cities.rating, countries.country_id, countries.name AS country
-        FROM cities
-        JOIN countries ON cities.countryId = countries.country_id
-        ORDER BY cities.rating DESC`)
+        SELECT cities.city_id, cities.name AS city, cities.rating, countries.country_id, countries.name AS country FROM cities
+        JOIN countries ON cities.countryId = countries.country_id ORDER BY cities.rating DESC`)
         .then(dbRes => res.status(200).send(dbRes[0]))
         .catch(err => console.log(err))
     },
 
-    deleteCity: () =>{
+    deleteCity: (req, res) => {
         const { city_id } = req.params;
         sequelize.query(`
           DELETE FROM cities
           WHERE city_id = ${city_id}`)
           .then(dbRes => res.status(200).send(dbRes[0]))
           .catch(err => console.log(err))
-    },
-
+      },
 
     seed: (req, res) => {
         sequelize.query(`
